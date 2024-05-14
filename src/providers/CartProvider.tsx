@@ -53,7 +53,7 @@ const CartProvider = ({ children }: PropsWithChildren) => {
     );
   };
 
-  //reduce loops through everything and collect it as one value
+  //reduce, loops through everything and collect it as one value
   //0 is the initial value
   const total = items.reduce(
     (sum, item) => (sum += item.product.price * item.quantity),
