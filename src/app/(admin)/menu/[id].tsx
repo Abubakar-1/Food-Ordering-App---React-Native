@@ -13,8 +13,10 @@ import Colors from "@/constants/Colors";
 import { useProduct } from "@/api/products";
 
 const ProductDetailsScreen = () => {
-  const { id: idString }: any = useLocalSearchParams();
-  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(
+    typeof idString === "string" ? idString : idString?.[0]
+  );
 
   const { data: product, error, isLoading } = useProduct(id);
 
