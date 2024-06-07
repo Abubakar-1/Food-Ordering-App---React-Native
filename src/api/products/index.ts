@@ -1,5 +1,10 @@
 import { supabase } from "@/lib/supabase";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export const useProductList = () => {
   return useQuery({
@@ -50,7 +55,9 @@ export const useInsertProduct = () => {
       return newProduct;
     },
     async onSuccess() {
-      await queryClient.invalidateQueries(["prodcuts"]);
+      await queryClient.invalidateQueries([
+        "prodcuts",
+      ] as InvalidateQueryFilters);
     },
   });
 };
@@ -76,8 +83,13 @@ export const useUpdateProduct = () => {
       return updatedProduct;
     },
     async onSuccess(_, { id }) {
-      await queryClient.invalidateQueries(["prodcuts"]);
-      await queryClient.invalidateQueries(["prodcuts", id]);
+      await queryClient.invalidateQueries([
+        "prodcuts",
+      ] as InvalidateQueryFilters);
+      await queryClient.invalidateQueries([
+        "prodcuts",
+        id,
+      ] as InvalidateQueryFilters);
     },
   });
 };
@@ -94,7 +106,9 @@ export const useDeleteProduct = () => {
     },
 
     async onSuccess() {
-      await queryClient.invalidateQueries(["prodcuts"]);
+      await queryClient.invalidateQueries([
+        "prodcuts",
+      ] as InvalidateQueryFilters);
     },
   });
 };

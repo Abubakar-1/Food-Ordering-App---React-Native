@@ -10,7 +10,7 @@ export default function MenuScreen() {
   }
 
   if (error) {
-    return <Text>Failed to fetch products</Text>;
+    return <Text>to fetch products</Text>;
   }
   return (
     <FlatList

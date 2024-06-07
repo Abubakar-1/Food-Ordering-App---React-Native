@@ -1,16 +1,30 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
-import orders from "../../../../assets/data/orders";
 import OrderListItem from "../../../components/OrderListItem";
 import OrderItemListItem from "@/components/OrderItemListItem";
+import { useOrderDetails } from "@/api/orders";
+import { useUpdateOrderSubscription } from "@/api/orders/subscriptions";
 
 const OrderDetailScreen = () => {
-  const { id } = useLocalSearchParams();
+  const { id: idString }: any = useLocalSearchParams();
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
 
-  const order = orders.find((o) => o.id.toString() === id);
+  const { data: order, isLoading, error } = useOrderDetails(id);
 
-  if (!order) {
-    return <Text>Order not found!</Text>;
+  useUpdateOrderSubscription(id);
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error || !order) {
+    return <Text>Failed to fetch</Text>;
   }
 
   return (
@@ -20,7 +34,7 @@ const OrderDetailScreen = () => {
       <OrderListItem order={order} />
 
       <FlatList
-        data={order.order_items}
+        data={order.order_item}
         renderItem={({ item }) => <OrderItemListItem item={item} />}
         contentContainerStyle={{ gap: 10 }}
         // ListHeaderComponent={() => <OrderListItem order={order} />} if u want this to scroll up also, instead of sticky behavior
