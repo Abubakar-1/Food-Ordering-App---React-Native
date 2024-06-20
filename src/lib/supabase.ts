@@ -3,8 +3,6 @@ import * as SecureStore from "expo-secure-store";
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/database.types";
 
-import Config from "react-native-config";
-
 const ExpoSecureStoreAdapter = {
   getItem: (key: string) => {
     return SecureStore.getItemAsync(key);
